@@ -32,7 +32,22 @@ class Cities(Resource):
             
         return jsonify(city_list)
     
+class RandomNameLName(Resource):
+    
+    def get(self):
+        city_list = []
+        name_list = []
+        
+        with open('cities.txt', 'r') as cities:
+            for city in cities: city_list.append(city)
+            
+        with open('names.txt', 'r') as names:
+            for name in names: name_list.append(name)
+        
+        return jsonify(city_list + name_list)
+    
 api.add_resource(HelloWorld, '/')
+api.add_resource(RandomNameLName, '/get/couples')
 api.add_resource(Names, '/get/names')
 api.add_resource(Cities, '/get/cities')
 
