@@ -3,14 +3,6 @@ from flask_restful import Resource, Api
 
 app = Flask(__name__)
 api = Api(app)
-
-class HelloWorld(Resource):
-    def get(self):
-        return {'about': 'hello world!'}
-
-    def post(self):
-        json_ = request.get_json()
-        return {'you sent': json_}, 201
     
 class Names(Resource):
     
@@ -32,7 +24,7 @@ class Cities(Resource):
             
         return jsonify(city_list)
     
-class RandomNameLName(Resource):
+class All(Resource):
     
     def get(self):
         city_list = []
@@ -46,8 +38,7 @@ class RandomNameLName(Resource):
         
         return jsonify(city_list + name_list)
     
-api.add_resource(HelloWorld, '/')
-api.add_resource(RandomNameLName, '/get/couples')
+api.add_resource(All, '/get/all')
 api.add_resource(Names, '/get/names')
 api.add_resource(Cities, '/get/cities')
 
