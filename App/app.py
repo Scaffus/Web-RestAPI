@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_login import login_manager, login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from uuid import uuid4
 
 app = Flask(__name__)
 db = SQLAlchemy(app)

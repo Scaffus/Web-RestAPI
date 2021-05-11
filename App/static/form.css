@@ -51,7 +51,6 @@ form.login_form {
 .mail:focus,
 .username:focus,
 .password:focus {
-  animation: fadeIn 0.8s;
   border: 2px solid rgba(215, 153, 33, 0.7) ;
 }
 
