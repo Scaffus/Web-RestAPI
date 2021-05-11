@@ -3,6 +3,10 @@
 {% block head %}
 <title>Sign Up</title>
 <link rel="stylesheet" href="static/form.css">
+<link rel="stylesheet" href="static/style.css">
+{% endblock %}
+
+{% block navbar %}
 {% endblock %}
 
 {% block main %}
@@ -14,6 +18,7 @@
         <input type="text" name="username" class="username" id="username" placeholder="Username">
         <input type="mail" name="mail" class="mail" id="mail" placeholder="Mail address">
         <input type="password" name="password" class="password" id="password" placeholder="••••••••••••">
+        <input type="checkbox" onclick="togglePasswordVisibility()">
 
         <input type="submit" class="submit" id="submit" value="Login">
 

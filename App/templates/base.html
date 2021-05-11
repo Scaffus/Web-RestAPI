@@ -1,19 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="static/script.js"></script>
     <title>RestAPI</title>
     {% block head %}
     {% endblock %}
 </head>
+
 <body>
 
-    <a href="/">Home</a>
-    <a href="/login">Login</a>
-    <a href="/register">Register</a>
-    
+    <div class="navbar">
+        <a href="/" class="navbar">Home</a>
+        <a href="/login" style="float: right;" class="navbar">Login</a>
+        <a href="/register" style="float: right;" class="navbar">Register</a>
+        {% block navbar %}
+        {% endblock %}
+    </div>
+
+
     {% block main %}
 
     {% endblock %}
@@ -22,32 +30,33 @@
     <!-- Pour afficher les messages flashs -->
     {% with flashs = get_flashed_messages(with_categories=true) %}
 
-        {% if flashs %}
+    {% if flashs %}
 
-            {% for category, flash in flashs %}
+    {% for category, flash in flashs %}
 
-                {% if category == 'error' %}
+    {% if category == 'error' %}
 
-                        {{ flash }}
-                        <button type="button" aria-label="Fermer"></button>
+    {{ flash }}
+    <button type="button" aria-label="Fermer"></button>
 
-                    {% elif category == 'success' %}
+    {% elif category == 'success' %}
 
-                        {{ flash }}
-                        <button type="button" aria-label="Fermer"></button>
+    {{ flash }}
+    <button type="button" aria-label="Fermer"></button>
 
-                    {% else %}
+    {% else %}
 
-                        {{ flash }}
-                        <button type="button" aria-label="Fermer"></button>
+    {{ flash }}
+    <button type="button" aria-label="Fermer"></button>
 
-                {% endif %}
+    {% endif %}
 
-            {% endfor %}
+    {% endfor %}
 
-        {% endif %}
+    {% endif %}
 
     {% endwith %}
 
 </body>
+
 </html>

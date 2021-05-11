@@ -87,7 +87,7 @@ def register():
         user = User.query.filter_by(mail=mail).first()
 
         if user:
-            flash('L\'addresse email existe déjà. {}'.format(user.username + ' ' + user.mail + ' ' + ' ' + user.password), category='error')
+            flash('L\'addresse email existe déjà. {}', category='error')
             return redirect(url_for('register'))
 
         elif len(username) < 3:
@@ -118,4 +118,3 @@ def register():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    db.create_all()
