@@ -9,9 +9,45 @@
     {% endblock %}
 </head>
 <body>
+
+    <a href="/">Home</a>
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
     
     {% block main %}
+
     {% endblock %}
+
+
+    <!-- Pour afficher les messages flashs -->
+    {% with flashs = get_flashed_messages(with_categories=true) %}
+
+        {% if flashs %}
+
+            {% for category, flash in flashs %}
+
+                {% if category == 'error' %}
+
+                        {{ flash }}
+                        <button type="button" aria-label="Fermer"></button>
+
+                    {% elif category == 'success' %}
+
+                        {{ flash }}
+                        <button type="button" aria-label="Fermer"></button>
+
+                    {% else %}
+
+                        {{ flash }}
+                        <button type="button" aria-label="Fermer"></button>
+
+                {% endif %}
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
 
 </body>
 </html>

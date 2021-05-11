@@ -1,25 +1,13 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+<link rel="stylesheet" href="static/style.css">
 {% endblock %}
 
 {% block main %}
 
-<h1>Basic form</h1>
-
-{% if form == true %}
-    <form action="/" method="POST">
-        Name: <input type="text" name="name" id="">
-        Last Name: <input type="text" name="last_name" id="">
-        <input type="submit" name="" id="" value="Send">
-    </form>
-{% elif form == false %}
-    {% if name and last_name %}
-        <h2>My name is {{ name }} and my last name is {{ last_name }}</h2>
-    {% else %}
-        <h1>There's been an error in the form</h1>
-    {% endif %}
-{% endif %}
+<div class="container">
+    <h1>Home page</h1>
+</div>
 
 {% endblock %}
