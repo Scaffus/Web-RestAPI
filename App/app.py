@@ -42,9 +42,9 @@ def index():
         name = request.form['name']
         last_name = request.form['last_name']
         
-        return render_template('index.html', form=False, name=name, last_name=last_name)
+        return render_template('index.html', form=False, name=name, last_name=last_name, user=current_user)
     
-    return render_template('index.html', form=True)
+    return render_template('index.html', form=True, user=current_user)
 
 
 # Page de login
@@ -115,5 +115,13 @@ def register():
     
     return render_template('register.html', user=current_user)
 
+@app.route('/addresource')
+@login_required
+def addResource():
+    
+    return render_template('add_resource.html', user=current_user)
+
+
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)

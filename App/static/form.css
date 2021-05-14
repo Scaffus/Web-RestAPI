@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
 
-body {
-  background-color: #3c3836;
-  font-family: "Robot", sans-serif;
-}
-
 .main {
   background-color: #282828;
   width: 400px;
@@ -73,7 +68,7 @@ form.login_form {
   padding-right: 40px;
   padding-bottom: 10px;
   padding-top: 10px;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto", sans-serif;
   margin-left: 35%;
   font-size: 13px;
   box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
@@ -84,12 +79,6 @@ form.login_form {
   color: #d79921;
   padding-top: 15px;
   padding-bottom: 1.5rem;
-}
-
-a {
-  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
-  color: #d79921;
-  text-decoration: none;
 }
 
 @media (max-width: 600px) {

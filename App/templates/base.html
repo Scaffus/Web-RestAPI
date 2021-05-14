@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="static/script.js"></script>
+    <link rel="stylesheet" href="static/style.css">
     <title>RestAPI</title>
     {% block head %}
     {% endblock %}
@@ -13,19 +14,19 @@
 
 <body>
 
-    <div class="navbar">
+    <div class="navbar" style="background-color: #1d2021; padding: 1.5em;">
         <a href="/" class="navbar">Home</a>
-        <a href="/login" style="float: right;" class="navbar">Login</a>
-        <a href="/register" style="float: right;" class="navbar">Register</a>
+        {% if user.is_authenticated == false %}
+        <a href="/login" style="float: right; display: flex; margin-left: 1em;" class="navbar">Login</a>
+        <a href="/register" style="float: right; display: flex; margin-left: 1em;" class="navbar">Register</a>
+        {% elif user.is_authenticated == true %}
+        <a href="/addresource" style="float: right; margin-left: 1em;">Add Ressource</a>
+        {% else %}
+        <a>Well, it seems that there is a problem here</a>
+        {% endif %}
         {% block navbar %}
         {% endblock %}
     </div>
-
-
-    {% block main %}
-
-    {% endblock %}
-
 
     <!-- Pour afficher les messages flashs -->
     {% with flashs = get_flashed_messages(with_categories=true) %}
@@ -36,18 +37,24 @@
 
     {% if category == 'error' %}
 
-    {{ flash }}
-    <button type="button" aria-label="Fermer"></button>
+    <p id="flash_message" id="error">{{ flash }}
+        <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
+            onclick="closeFlashMesage()">×</button>
+    </p>
 
     {% elif category == 'success' %}
 
-    {{ flash }}
-    <button type="button" aria-label="Fermer"></button>
+    <p id="flash_message" id="success">{{ flash }}
+        <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
+            onclick="closeFlashMesage()">×</button>
+    </p>
 
     {% else %}
 
-    {{ flash }}
-    <button type="button" aria-label="Fermer"></button>
+    <p id="flash_message" id="else">{{ flash }}
+        <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
+            onclick="closeFlashMesage()">×</button>
+    </p>
 
     {% endif %}
 
@@ -56,6 +63,12 @@
     {% endif %}
 
     {% endwith %}
+
+
+    {% block main %}
+
+    {% endblock %}
+
 
 </body>
 

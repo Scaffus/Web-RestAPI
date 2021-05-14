@@ -7,3 +7,8 @@ function togglePasswordVisibility() {
         pass.type = "password";
     }
 }
+
+function closeFlashMesage() {
+    var flash_msg = document.getElementById("flash_message");
+    flash_msg.remove();
+}

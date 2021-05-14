@@ -11,9 +11,45 @@
   }
 }
 
+/* --------[ body ]-------- */
+
+body {
+  background-color: #3c3836;
+  font-family: "Roboto", sans-serif;
+}
+
+a {
+  text-shadow: 0px 0px 3px rgba(117, 117, 117, 0.12);
+  color: #d79921;
+  text-decoration: none;
+}
+
+/* --------[ flash messages ]-------- */
+
+#flash_message {
+
+  color: #ebdbb2;
+  border: 2px solid #8ebb26;
+  border-radius: 1em;
+  background-color: #8ebb268c;
+  padding: 0.5em;
+  font-size: 17px;
+  width: 50%;
+}
+
+button.flash_message {
+  color:#ebdbb2;
+  border: 0px solid ;
+  background-color: transparent;
+  font-size: 17px;
+  font-weight: bolder;
+  cursor: pointer;
+  float: right;
+}
+
 /* --------[ navigation bar ]-------- */
 
-.navbar {
+/* .navbar {
   margin: 2rem;
   border-radius: 2rem;
   background-color: #282828;
@@ -38,4 +74,4 @@
 .navbar a.active {
   background-color: #458588;
   color: #ebdbb2;
-}
+} */
