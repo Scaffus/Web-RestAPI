@@ -117,11 +117,11 @@ def lougout():
     flash('You logged out !', category='else')
     return redirect(url_for('login'))
 
-@app.route('/addresource')
+@app.route('/dashboard')
 @login_required
 def addResource():
     
-    return render_template('add_resource.html', user=current_user)
+    return render_template('dashboard.html', user=current_user)
 
 
 if __name__ == '__main__':

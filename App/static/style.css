@@ -68,6 +68,19 @@ button.flash_message {
   float: right;
 }
 
+/* --------[ dashboard ]-------- */
+
+div.dash_b {
+  display: inline-block;
+  width: auto;
+}
+
+label.dashb_infos {
+  color: #ebdbb2;
+  font-size: 1.3em;
+  display: block;
+}
+
 /* --------[ navigation bar ]-------- */
 
 /* .navbar {
