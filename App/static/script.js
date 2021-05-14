@@ -9,6 +9,6 @@ function togglePasswordVisibility() {
 }
 
 function closeFlashMesage() {
-    var flash_msg = document.getElementById("flash_message");
+    var flash_msg = document.getElementById("flash_msg_div");
     flash_msg.remove();
 }

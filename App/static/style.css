@@ -26,20 +26,41 @@ a {
 
 /* --------[ flash messages ]-------- */
 
-#flash_message {
-
+.flash_msg {
+  float: right;
+  animation: fadeIn 0.5s;
   color: #ebdbb2;
-  border: 2px solid #8ebb26;
   border-radius: 1em;
-  background-color: #8ebb268c;
   padding: 0.5em;
   font-size: 17px;
   width: 50%;
+  overflow: hidden;
+}
+
+p.flash_msg#error {
+  background-color: rgba(204, 35, 29, 0.5);
+  border: 2px solid #fb4934;
+}
+
+p.flash_msg#success {
+  background-color: hsla(78, 66%, 44%, 0.5);
+  border: 2px solid #8ebb26;
+}
+
+p.flash_msg#else {
+  background-color: rgba(69, 133, 136, 0.5);
+  border: 2px solid #83a598;
+}
+
+div.flash_msg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 button.flash_message {
-  color:#ebdbb2;
-  border: 0px solid ;
+  color: #ebdbb2;
+  border: 0px solid;
   background-color: transparent;
   font-size: 17px;
   font-weight: bolder;

@@ -1,3 +1,4 @@
+from logging import captureWarnings, log
 from flask import Flask, render_template, request, flash, url_for, redirect
 from flask_login import login_manager, login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -37,14 +38,7 @@ class User(db.Model, UserMixin):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     
-    if request.method == 'POST':
-        
-        name = request.form['name']
-        last_name = request.form['last_name']
-        
-        return render_template('index.html', form=False, name=name, last_name=last_name, user=current_user)
-    
-    return render_template('index.html', form=True, user=current_user)
+    return render_template('index.html', user=current_user)
 
 
 # Page de login
@@ -60,15 +54,15 @@ def login():
 
         if user:
             if check_password_hash(user.password, password):
-                flash('Vous avez été connecté avec succès!', category='success')
+                flash('You logged in successfuly !', category='success')
                 login_user(user, remember=True)
 
                 return redirect(url_for('index'))
 
             else:
-                flash('Le mot de passe est incorrect.', category='error')
+                flash('Wrong password or inexisting user.', category='error')
         else:
-            flash('L\'addresse email n\'existe pas.')
+            flash('Mail address does not exist.', category='error')
 
     return render_template('login.html', user=current_user)
 
@@ -86,19 +80,19 @@ def register():
         user = User.query.filter_by(mail=mail).first()
 
         if user:
-            flash('L\'addresse email existe déjà. {}', category='error')
+            flash('The mail address already exists.', category='error')
             return redirect(url_for('register'))
 
         elif len(username) < 3:
-            flash('Le pseudonyme doit contennir plus de 2 caractères.', category='error')
+            flash('The username must be at least 2 characters.', category='error')
             return redirect(url_for('register'))
 
         elif len(password) < 8:
-            flash('Le mot de passe doit faire au moins 8 caractères.', category='error')
+            flash('The password must be at least 8 characters long.', category='error')
             return redirect(url_for('register'))
             
         elif len(mail) < 4:
-            flash('L\'addresse mail doit contennir plus de 3 caractères.', category='error')
+            flash('The mail address must be at least than 3 characters long.', category='error')
             return redirect(url_for('register'))
 
         else:
@@ -109,11 +103,19 @@ def register():
 
             login_user(newUser, remember=True)
 
-            flash('Compte créé avec succès!', category='success')
+            flash('Account created successfuly with the name {} !'.format(username), category='success')
 
         return redirect(url_for('login'))
     
     return render_template('register.html', user=current_user)
+
+@app.route('/logout')
+def lougout():
+    
+    logout_user()
+    
+    flash('You logged out !', category='else')
+    return redirect(url_for('login'))
 
 @app.route('/addresource')
 @login_required

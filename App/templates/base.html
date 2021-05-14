@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="static/script.js"></script>
     <link rel="stylesheet" href="static/style.css">
-    <title>RestAPI</title>
     {% block head %}
     {% endblock %}
 </head>
@@ -16,53 +15,55 @@
 
     <div class="navbar" style="background-color: #1d2021; padding: 1.5em;">
         <a href="/" class="navbar">Home</a>
+        
         {% if user.is_authenticated == false %}
         <a href="/login" style="float: right; display: flex; margin-left: 1em;" class="navbar">Login</a>
         <a href="/register" style="float: right; display: flex; margin-left: 1em;" class="navbar">Register</a>
-        {% elif user.is_authenticated == true %}
-        <a href="/addresource" style="float: right; margin-left: 1em;">Add Ressource</a>
         {% else %}
-        <a>Well, it seems that there is a problem here</a>
+        <a href="/logout" style="float: right; display: flex; margin-left: 3em;" class="navbar">Logout</a>
+        <a href="/addresource" style="float: right; margin-left: 1em;">Add Ressource</a>
         {% endif %}
         {% block navbar %}
         {% endblock %}
     </div>
 
     <!-- Pour afficher les messages flashs -->
-    {% with flashs = get_flashed_messages(with_categories=true) %}
+    <div class="flash_msg" id="flash_msg_div">
+        {% with flashs = get_flashed_messages(with_categories=true) %}
 
-    {% if flashs %}
+        {% if flashs %}
 
-    {% for category, flash in flashs %}
+        {% for category, flash in flashs %}
 
-    {% if category == 'error' %}
+        {% if category == 'error' %}
 
-    <p id="flash_message" id="error">{{ flash }}
-        <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
-            onclick="closeFlashMesage()">×</button>
-    </p>
+        <p id="error" class="flash_msg">{{ flash }}
+            <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
+                onclick="closeFlashMesage()">×</button>
+        </p>
 
-    {% elif category == 'success' %}
+        {% elif category == 'success' %}
 
-    <p id="flash_message" id="success">{{ flash }}
-        <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
-            onclick="closeFlashMesage()">×</button>
-    </p>
+        <p id="success" class="flash_msg">{{ flash }}
+            <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
+                onclick="closeFlashMesage()">×</button>
+        </p>
 
-    {% else %}
+        {% else %}
 
-    <p id="flash_message" id="else">{{ flash }}
-        <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
-            onclick="closeFlashMesage()">×</button>
-    </p>
+        <p id="else" class="flash_msg">{{ flash }}
+            <button type="button" class="flash_message" style="margin-left: 1em;" aria-label="Fermer"
+                onclick="closeFlashMesage()">×</button>
+        </p>
 
-    {% endif %}
+        {% endif %}
 
-    {% endfor %}
+        {% endfor %}
 
-    {% endif %}
+        {% endif %}
 
-    {% endwith %}
+        {% endwith %}
+    </div>
 
 
     {% block main %}
