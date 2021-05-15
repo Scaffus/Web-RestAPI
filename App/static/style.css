@@ -81,10 +81,6 @@ div.dashb_main {
   margin-bottom: 50px;
 }
 
-div.dashb {
-  padding: 1rem;
-}
-
 label.dashb_info {
   padding: 0.6rem;
   color: #ebdbb2;
@@ -93,7 +89,7 @@ label.dashb_info {
 }
 
 input.dashb_info {
-  width: 76%;
+  width: 75%;
   /* color: rgb(38, 50, 56); */
   color: #ebdbb2;
   font-weight: 700;
@@ -109,9 +105,10 @@ input.dashb_info {
   font-family: "Roboto", sans-serif;
 }
 
-button.dashb_add {
+button.dashb_resource_add {
   background: hsla(78, 66%, 44%, 0.5);;
   padding: 0.5em;
+  margin: 1em;
   border-radius: 15px;
   border: 2px solid #8ebb26;
   color: #ebdbb2;
@@ -132,6 +129,11 @@ p.category {
 
 /* --------[ dashboard - show resources ]-------- */
 
+hr.resources_separation {
+  visibility: hidden;
+  margin: 1em;
+}
+
 div.dashb_resources {
   padding: 1em;
   display: flex;
@@ -145,6 +147,37 @@ textarea.dashb_info {
   border-radius: 20px;
   outline: none;
   border: 2px solid rgba(0, 0, 0, 0.02);
+  color: #ebdbb2;
+  font-size: 1.1em;
+}
+
+a.dashb_resource_delete {
+  background: rgba(204, 35, 29, 0.5);
+  padding: 0.5em;
+  border-radius: 15px;
+  border: 2px solid #fb4934;
+  color: #ebdbb2;
+  cursor: pointer;
+}
+
+div.dashb_resource_delete {
+  padding: 1em;
+}
+
+input.dashb_input {
+  width: 76%;
+  /* color: rgb(38, 50, 56); */
+  color: #ebdbb2;
+  font-size: 14px;
+  letter-spacing: 1px;
+  background: rgba(136, 126, 126, 0.04);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  border: 2px solid rgba(0, 0, 0, 0.02);
+  text-align: left;
+  font-family: "Roboto", sans-serif;
 }
 
 /* --------[ navigation bar ]-------- */

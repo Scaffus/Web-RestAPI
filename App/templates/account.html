@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>RestAPI - Home</title>
+<link rel="stylesheet" href="static/style.css">
+{% endblock %}
+
+{% block main %}
+
+<p class="category">Account informations</p>
+<div class="dashb_main">
+    <div class="dashb_resources">
+        <label class="dashb_info" for="user_name">Username</label>
+        <input type="text" disabled class="dashb_info" id="user_name" placeholder="{{ user.username }}">
+    </div>
+    <div class="dashb_resources">
+        <label class="dashb_info" for="user_mail">Mail</label>
+        <input type="mail" disabled class="dashb_info" id="user_mail" placeholder="{{ user.mail }}">
+    </div>
+</div>
+
+{% endblock %}

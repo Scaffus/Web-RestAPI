@@ -1,6 +1,6 @@
 from logging import captureWarnings, error, log
 from operator import contains
-from flask import Flask, render_template, request, flash, url_for, redirect, jsonify
+from flask import Flask, json, render_template, request, flash, url_for, redirect, jsonify
 from flask_login import login_manager, login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -144,16 +144,47 @@ def dashboard():
             db.session.add(resource)
             db.session.commit()
             
-            flash('Name: {} | Returns: {} | User id: {}'.format(resource.name, jsonify(resource_returns), resource_userid), category='else')
+            flash('Name: {} | Returns: {}'.format(resource.name, resource_returns, resource_userid), category='else')
             
         return redirect(url_for('dashboard'))
     
     return render_template('dashboard.html', user=current_user, resources=Resource.query.filter_by(userid=current_user.id))
 
-@app.route('/u/<string:user>')
-def get(user):
+
+@app.route('/u/<string:user>/delete/<int:id>')
+@login_required
+def delete_resource(user, id):
     
-    return user
+    if current_user.username == user:
+    
+        resource = Resource.query.get_or_404(id)
+        
+        try:
+            db.session.delete(resource)
+            db.session.commit()
+            flash('The ressource {} has been successfully deleted'.format(resource.name), category='success')
+        except:
+            flash('An error occured during deletion', category='error')
+        
+        return redirect(url_for('dashboard'))
+        
+    else:
+        
+        return '404'
+
+@app.route('/u/<string:user>/resource/<string:resource_name>')
+def get_resource(user, resource_name):
+    
+    user = User.query.filter_by(username=user).first()
+    resource = Resource.query.filter_by(userid=user.id, name=resource_name).first()
+    
+    return jsonify(resource.returns)
+
+@app.route('/account')
+@login_required
+def account():
+    
+    return render_template('account.html', user=current_user)
 
 if __name__ == '__main__':
     db.create_all()
