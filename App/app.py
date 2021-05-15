@@ -4,6 +4,7 @@ from flask import Flask, json, render_template, request, flash, url_for, redirec
 from flask_login import login_manager, login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from secrets import token_urlsafe
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
@@ -15,16 +16,19 @@ login_manager = LoginManager()
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 
+# handling user
 @login_manager.user_loader
 def load_user(mail):
 
     return User.query.get(mail)
 
+# db Model of the user
 class User(db.Model, UserMixin):
     id       = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
     mail     = db.Column(db.String(120))
     password = db.Column(db.String(80))
+    token    = db.Column(db.String(20))
 
     def is_active(self):
         return True
@@ -34,7 +38,8 @@ class User(db.Model, UserMixin):
 
     def is_anonymous(self):
         return False
-    
+
+# db Model for the resources the user can create    
 class Resource(db.Model):
     id      = db.Column(db.Integer, primary_key=True)
     name    = db.Column(db.String(40))
@@ -48,7 +53,7 @@ def index():
     return render_template('index.html', user=current_user)
 
 
-# Page de login
+# login page, checking if the email exists as a User in the database and after checking if the hash of the password is coresponding the provided password after hashing it (in sha256)
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
@@ -74,7 +79,7 @@ def login():
     return render_template('login.html', user=current_user)
 
 
-# Page de register
+# registering user, checking for username, email and password length then lowercasing the username and the email and saving it as a User
 @app.route('/register', methods=['GET', 'POST'])
 def register():
 
@@ -103,7 +108,7 @@ def register():
             return redirect(url_for('register'))
 
         else:
-            newUser = User(username=username.lower(), mail=mail.lower(), password=generate_password_hash(password, method='sha256'))
+            newUser = User(username=username.lower(), mail=mail.lower(), password=generate_password_hash(password, method='sha256'), token=token_urlsafe(20))
 
             db.session.add(newUser)
             db.session.commit()
@@ -116,6 +121,7 @@ def register():
     
     return render_template('register.html', user=current_user)
 
+# simply logging out user and sending a flash message
 @app.route('/logout')
 def lougout():
     
@@ -123,6 +129,7 @@ def lougout():
     
     flash('You logged out !', category='else')
     return redirect(url_for('login'))
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
@@ -150,12 +157,14 @@ def dashboard():
     
     return render_template('dashboard.html', user=current_user, resources=Resource.query.filter_by(userid=current_user.id))
 
-
+# endpoint to delete resources of user, requires a username, a user id and valid user token
 @app.route('/u/<string:user>/delete/<int:id>')
 @login_required
 def delete_resource(user, id):
     
-    if current_user.username == user:
+    user_token = request.args.get('token')
+    
+    if current_user.username == user and current_user.token == user_token:
     
         resource = Resource.query.get_or_404(id)
         
@@ -170,16 +179,32 @@ def delete_resource(user, id):
         
     else:
         
-        return '404'
+        return 'Wrong username or token'
 
+# endpoint to get the resources of the users, requires a username, a resource name and a valid token
 @app.route('/u/<string:user>/resource/<string:resource_name>')
 def get_resource(user, resource_name):
     
-    user = User.query.filter_by(username=user).first()
-    resource = Resource.query.filter_by(userid=user.id, name=resource_name).first()
+    # getting the obligatory token from the url arguments
+    user_token = request.args.get('token')
     
-    return jsonify(resource.returns)
+    if not user_token:
+        return 'Missing token'
+        
+    else:
+        # getting the user by the username
+        user = User.query.filter_by(username=user).first()
+        
+        # if the provided token and the requested user token match, it will get the requested resource
+        if user.token == user_token:
+            resource = Resource.query.filter_by(userid=user.id, name=resource_name).first()
+            
+            return jsonify(resource.returns)
 
+        else:  
+            return 'Wrong token'
+
+# returns account panel page of current_user if the user is logged in 
 @app.route('/account')
 @login_required
 def account():

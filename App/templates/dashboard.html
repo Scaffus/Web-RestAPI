@@ -48,12 +48,15 @@
             disabled>{{ resource.returns }}</textarea>
         <br>
         <label for="dashb_resources_link_name" class="dashb_info" id="resource">Link to your ressource</label>
-        <input type="text" class="dashb_input" value="/u/{{ user.username }}/resource/{{ resource.name }}" disabled id="dashb_resources_link_name">
+        <input type="text" class="dashb_input"
+            value="/u/{{ user.username }}/resource/{{ resource.name }}?token=<your token>" disabled
+            id="dashb_resources_link_name">
+        <a href="/account" style="padding: 1em;">Where is my token ?</a>
     </div>
     <div class="dashb_resource_delete">
-        <a href="/u/{{ user.username }}/delete/{{ resource.id }}" class="dashb_resource_delete"><svg
-                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
-                viewBox="0 0 16 16">
+        <a href="/u/{{ user.username }}/delete/{{ resource.id }}?token={{ user.token }}"
+            class="dashb_resource_delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path
                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                 <path fill-rule="evenodd"
