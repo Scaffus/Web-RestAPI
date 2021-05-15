@@ -2,7 +2,6 @@
 
 {% block head %}
 <title>RestAPI - Dashboard</title>
-<link rel="stylesheet" href="static/form.css">
 <link rel="stylesheet" href="static/style.css">
 {% endblock %}
 
@@ -11,11 +10,54 @@
 
 {% block main %}
 
-<div class="main">
-    <div class="dash_b">
-        <label class="dashb_infos" for="user_mail">Mail</label>
-        <input type="mail" disabled class="mail" id="user_mail" placeholder="{{ user.mail }}">
+<p class="category">Add Resource</p>
+<div class="dashb_main" id="dashb_add_resource">
+    <!-- <div class="dashb">
+        <label class="dashb_info" for="user_name">Username</label>
+        <input type="text" disabled class="dashb_info" id="user_name" placeholder="{{ user.username }}">
     </div>
+    <div class="dashb">
+        <label class="dashb_info" for="user_mail">Mail</label>
+        <input type="mail" disabled class="dashb_info" id="user_mail" placeholder="{{ user.mail }}">
+    </div> -->
+    <form action="/dashboard" method="POST">
+        <div class="dashb">
+            <label for="dashb_add_name" class="dashb_info">Name</label>
+            <input name="resource_name" type="text" id="dashb_add_name"
+                placeholder="My_new_resource (no space or non-utf8 characters)" class="dashb_info">
+        </div>
+        <div class="dashb">
+            <label for="dashb_add_returns" class="dashb_info">Returns</label>
+            <input name="resource_returns" type="text" id="dashb_add_returns" placeholder="{'name': 'john'}"
+                class="dashb_info">
+        </div>
+        <div class="dashb">
+            <button class="dashb_add" type="submit">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+            </button>
+        </div>
+    </form>
+</div>
+
+<p class="category">Resources</p>
+<div class="dashb_main">
+
+    {% for resource in resources %}
+    <div class="dashb_resources">
+        <label for="dashb_resources_name" class="dashb_info" id="resource">Name </label>
+        <input type="text" class="dashb_info" value="{{ resource.name }}" disabled id="dashb_resources_name">
+        <br>
+        <label for="dashb_resources_returns" class="dashb_info" id="resource">Returns </label>
+        <textarea name="dashb_resources_returns" id="dashb_resources_returns" class="dashb_info" cols="30" rows="10" disabled>{{ resource.returns }}</textarea>
+    </div>
+    <hr>
+    {% endfor %}
+
+
 </div>
 
 {% endblock %}

@@ -1,5 +1,6 @@
-from logging import captureWarnings, log
-from flask import Flask, render_template, request, flash, url_for, redirect
+from logging import captureWarnings, error, log
+from operator import contains
+from flask import Flask, render_template, request, flash, url_for, redirect, jsonify
 from flask_login import login_manager, login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
@@ -33,6 +34,12 @@ class User(db.Model, UserMixin):
 
     def is_anonymous(self):
         return False
+    
+class Resource(db.Model):
+    id      = db.Column(db.Integer, primary_key=True)
+    name    = db.Column(db.String(40))
+    returns = db.Column(db.String(1000))
+    userid  = db.Column(db.Integer)
 
 # Homepage
 @app.route('/', methods=['GET', 'POST'])
@@ -96,7 +103,7 @@ def register():
             return redirect(url_for('register'))
 
         else:
-            newUser = User(username=username, mail=mail, password=generate_password_hash(password, method='sha256'))
+            newUser = User(username=username.lower(), mail=mail.lower(), password=generate_password_hash(password, method='sha256'))
 
             db.session.add(newUser)
             db.session.commit()
@@ -117,12 +124,36 @@ def lougout():
     flash('You logged out !', category='else')
     return redirect(url_for('login'))
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
-def addResource():
+def dashboard():
     
-    return render_template('dashboard.html', user=current_user)
+    if request.method == 'POST':
+        
+        resource_name     = request.form['resource_name']
+        resource_returns  = request.form['resource_returns']
+        
+        if len(resource_name) < 2 or ' ' in resource_name:
+            flash('The name must be at least 2 characters long and not contain spaces', category='error')
+            return redirect(url_for('dashboard'))
+        else: 
+            resource_userid = current_user.id
+        
+            resource = Resource(name=resource_name, returns=resource_returns, userid=resource_userid)
+            
+            db.session.add(resource)
+            db.session.commit()
+            
+            flash('Name: {} | Returns: {} | User id: {}'.format(resource.name, jsonify(resource_returns), resource_userid), category='else')
+            
+        return redirect(url_for('dashboard'))
+    
+    return render_template('dashboard.html', user=current_user, resources=Resource.query.filter_by(userid=current_user.id))
 
+@app.route('/u/<string:user>')
+def get(user):
+    
+    return user
 
 if __name__ == '__main__':
     db.create_all()
