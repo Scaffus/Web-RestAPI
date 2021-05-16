@@ -190,3 +190,26 @@ input.dashb_input {
   color: #ebdbb2;
   cursor: pointer;
 }
+
+/* --------[ navbar ]-------- */
+
+a.navbar {
+  border: 2px solid #d79921;
+  border-radius: 15px;
+  background-color: #3c3836;
+  padding: 10px 20px;
+}
+
+a.navbar#float_left {
+  float: left;
+}
+
+a.navbar#float_right {
+  float: right;
+}
+
+div.navbar {
+  background-color: #282828;
+  border: 2px solid #3c3836;
+  border-radius: 1em;
+}

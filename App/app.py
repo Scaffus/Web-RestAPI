@@ -1,5 +1,3 @@
-from logging import captureWarnings, error, log
-from operator import contains
 from flask import Flask, json, render_template, request, flash, url_for, redirect, jsonify
 from flask_login import login_manager, login_user, login_required, logout_user, current_user, LoginManager, UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -157,16 +155,17 @@ def dashboard():
     
     return render_template('dashboard.html', user=current_user, resources=Resource.query.filter_by(userid=current_user.id))
 
-# endpoint to delete resources of user, requires a username, a user id and valid user token
+# delete resources of user via dashboard, requires a username, a user id and valid user token
 @app.route('/u/<string:user>/delete/<int:id>')
 @login_required
-def delete_resource(user, id):
+def delete_resource_via_dashboard(user, id):
     
     user_token = request.args.get('token')
     
     if current_user.username == user and current_user.token == user_token:
-    
+
         resource = Resource.query.get_or_404(id)
+            
         
         try:
             db.session.delete(resource)
@@ -181,21 +180,44 @@ def delete_resource(user, id):
         
         return 'Wrong username or token'
 
-# endpoint to get the resources of the users, requires a username, a resource name and a valid token
-@app.route('/u/<string:user>/resource/<string:resource_name>')
-def get_resource(user, resource_name):
+
+@app.route('/u/<string:user>/resource/delete/<string:resource_name>')
+def api_delete_resource(user, resource_name):
+    
+    user_token = request.args.get('token')
+    
+    if not user_token:
+        'missing token'
+        
+    else:
+        # getting the user by the given username 
+        user = User.query.filter_by(username=user).first()
+        
+        # if the provided token and the requested user token match, it will get the requested resource and delete it
+        if user.token == user_token:
+            resource = Resource.query.filter_by(userid=user.id, name=resource_name).first()
+            
+            jsn = {'deleted_resource': resource_name,
+                   'requested_by': user.username}
+            
+            return jsonify(jsn)
+
+
+# get the resources of the users, requires a username, a resource name and a valid token
+@app.route('/u/<string:user>/resource/get/<string:resource_name>')
+def api_get_resource(user, resource_name):
     
     # getting the obligatory token from the url arguments
     user_token = request.args.get('token')
     
     if not user_token:
-        return 'Missing token'
+        return 'missing token'
         
     else:
-        # getting the user by the username
+        # getting the user by the given username
         user = User.query.filter_by(username=user).first()
         
-        # if the provided token and the requested user token match, it will get the requested resource
+        # if the provided token and the requested user token match, it will get the requested resource and return it
         if user.token == user_token:
             resource = Resource.query.filter_by(userid=user.id, name=resource_name).first()
             

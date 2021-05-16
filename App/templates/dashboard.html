@@ -49,12 +49,12 @@
         <br>
         <label for="dashb_resources_link_name" class="dashb_info" id="resource">Link to your ressource</label>
         <input type="text" class="dashb_input"
-            value="/u/{{ user.username }}/resource/{{ resource.name }}?token=<your token>" disabled
+            value="/u/{{ user.username }}/resource/get/{{ resource.name }}?token=<your token>" disabled
             id="dashb_resources_link_name">
         <a href="/account" style="padding: 1em;">Where is my token ?</a>
     </div>
     <div class="dashb_resource_delete">
-        <a href="/u/{{ user.username }}/delete/{{ resource.id }}?token={{ user.token }}"
+        <a href="/u/{{ user.username }}/resource/delete/{{ resource.name }}?token={{ user.token }}"
             class="dashb_resource_delete"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                 <path
